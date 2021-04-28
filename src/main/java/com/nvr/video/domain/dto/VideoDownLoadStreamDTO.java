@@ -1,6 +1,7 @@
 package com.nvr.video.domain.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -9,6 +10,7 @@ import java.util.Date;
  * @Date 2021/4/27 10:09 下午
  * @Description 海康CVR按流模式下载视频
  */
+@Data
 public class VideoDownLoadStreamDTO {
 
     @ApiModelProperty(value = "不传")

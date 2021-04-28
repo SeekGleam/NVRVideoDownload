@@ -22,7 +22,7 @@ public class VideoDownLoadChannelDTO {
     private String nvrIp;
 
     @ApiModelProperty(value = "NVR服务端口号" ,example = "8000")
-    private String port;
+    private Integer port;
 
     @ApiModelProperty(value = "通道号" ,example = "33")
     private Integer channel;
