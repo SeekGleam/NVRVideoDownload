@@ -9,23 +9,9 @@ import com.nvr.video.domain.vo.TaskVO;
 import com.nvr.video.exception.CommonException;
 import com.nvr.video.sdk.DHDvrVideoUtils;
 import com.nvr.video.sdk.HCNetSDK;
-import com.nvr.video.sdk.LoginModule;
-import com.nvr.video.sdk.NetSDKLib;
-import com.sun.jna.CallbackThreadInitializer;
-import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
-import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.stereotype.Component;
-
-import javax.swing.*;
-import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author zhangbo

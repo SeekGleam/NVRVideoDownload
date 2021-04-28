@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class VideoDownloadServiceImpl implements VideoDownloadService {
 
-    private final VideoDownloadUtils videoDownloadUtils;
+//    private final VideoDownloadUtils videoDownloadUtils;
 
     @Override
     public void downloadHkNvrVideo(String taskId, VideoDownLoadChannelDTO videoDownLoadChannelDTO) {
@@ -28,8 +28,8 @@ public class VideoDownloadServiceImpl implements VideoDownloadService {
                 .clipEndTime(videoDownLoadChannelDTO.getClipEndTime())
                 .videoFileName(videoDownLoadChannelDTO.getFileName())
                 .build();
-       String fileName = videoDownloadUtils.downlaodHkNvrVideo(taskId,videoDownLoadChannelDTO,taskVO);
-       
+//       String fileName = videoDownloadUtils.downlaodHkNvrVideo(taskId,videoDownLoadChannelDTO,taskVO);
+        //todo 异步提交任务后向下执行
     }
 
     @Override
