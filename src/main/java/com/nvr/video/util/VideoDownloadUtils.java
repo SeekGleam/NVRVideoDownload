@@ -1,8 +1,6 @@
 package com.nvr.video.util;
 
 
-import cn.hutool.core.io.FileUtil;
-import com.google.common.collect.Lists;
 import com.nvr.video.domain.dto.VideoDownLoadChannelDTO;
 import com.nvr.video.domain.dto.VideoDownLoadStreamDTO;
 import com.nvr.video.domain.vo.TaskVO;
@@ -12,6 +10,7 @@ import com.nvr.video.sdk.HCNetSDK;
 import com.sun.jna.NativeLong;
 import com.sun.jna.ptr.IntByReference;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * @author zhangbo
@@ -19,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description
  */
 @Slf4j
-//@Component
+@Component
 public class VideoDownloadUtils {
 
     private static final HCNetSDK hcNetSDK = HCNetSDK.INSTANCE;
@@ -194,12 +193,12 @@ public class VideoDownloadUtils {
 
     /**
      * 大华Nvr视频截取下载-通道号下载
-     * @param traceId
-     * @param videoDownLoadChannelDTO
-     * @param taskVO
-     * @return
+     * @param traceId 链路ID taskID可作为链路ID
+     * @param videoDownLoadChannelDTO 视频下载参数
+     * @param taskVO 视频下载进度
+     * @return filename 文件名称
      */
-    public String downlaodDhNvrVideo(String traceId, VideoDownLoadChannelDTO videoDownLoadChannelDTO, TaskVO taskVO){
+    public String downloadDhNvrVideo(String traceId, VideoDownLoadChannelDTO videoDownLoadChannelDTO, TaskVO taskVO){
 
         return new DHDvrVideoUtils().dvrDownloadByTimeEx(traceId,videoDownLoadChannelDTO,taskVO);
     }

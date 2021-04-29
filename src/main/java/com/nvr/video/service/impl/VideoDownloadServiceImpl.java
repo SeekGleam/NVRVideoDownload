@@ -1,4 +1,6 @@
 package com.nvr.video.service.impl;
+import com.nvr.video.constant.CommonConstant;
+import com.nvr.video.constant.GlobalTaskListConstant;
 import com.nvr.video.domain.dto.VideoDownLoadChannelDTO;
 import com.nvr.video.domain.dto.VideoDownLoadStreamDTO;
 import com.nvr.video.domain.vo.TaskVO;
@@ -18,7 +20,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class VideoDownloadServiceImpl implements VideoDownloadService {
 
-//    private final VideoDownloadUtils videoDownloadUtils;
+    private final VideoDownloadUtils videoDownloadUtils;
+
+    private final GlobalTaskListConstant globalTaskListConstant;
 
     @Override
     public void downloadHkNvrVideo(String taskId, VideoDownLoadChannelDTO videoDownLoadChannelDTO) {
@@ -27,16 +31,37 @@ public class VideoDownloadServiceImpl implements VideoDownloadService {
                 .clipStartTime(videoDownLoadChannelDTO.getClipStartTime())
                 .clipEndTime(videoDownLoadChannelDTO.getClipEndTime())
                 .videoFileName(videoDownLoadChannelDTO.getFileName())
+                .downloadStatusCode(CommonConstant.VIDEO_DOWNLOADING_STATUS_CODE)
+                .downloadStatusName(CommonConstant.VIDEO_DOWNLOADING_STATUS_NAME)
                 .build();
-//       String fileName = videoDownloadUtils.downlaodHkNvrVideo(taskId,videoDownLoadChannelDTO,taskVO);
-        //todo 异步提交任务后向下执行
+        globalTaskListConstant.executionInTaskVOList.add(taskVO);
+    videoDownloadUtils.downlaodHkNvrVideo(taskId,videoDownLoadChannelDTO,taskVO);
     }
 
     @Override
     public void downloadHkCvrVideo(String taskId, VideoDownLoadStreamDTO videoDownLoadStreamDTO) {
+        TaskVO taskVO=TaskVO.builder()
+                .taskId(taskId)
+                .clipStartTime(videoDownLoadStreamDTO.getClipStartTime())
+                .clipEndTime(videoDownLoadStreamDTO.getClipEndTime())
+                .videoFileName(videoDownLoadStreamDTO.getFileName())
+                .downloadStatusCode(CommonConstant.VIDEO_DOWNLOADING_STATUS_CODE)
+                .downloadStatusName(CommonConstant.VIDEO_DOWNLOADING_STATUS_NAME)
+                .build();
+        videoDownloadUtils.downlaodHkCvrVideo(taskId,videoDownLoadStreamDTO,taskVO);
     }
 
     @Override
     public void downloadDhNvrVideo(String taskId, VideoDownLoadChannelDTO videoDownLoadChannelDTO) {
+        TaskVO taskVO=TaskVO.builder()
+                .taskId(taskId)
+                .clipStartTime(videoDownLoadChannelDTO.getClipStartTime())
+                .clipEndTime(videoDownLoadChannelDTO.getClipEndTime())
+                .videoFileName(videoDownLoadChannelDTO.getFileName())
+                .downloadStatusCode(CommonConstant.VIDEO_DOWNLOADING_STATUS_CODE)
+                .downloadStatusName(CommonConstant.VIDEO_DOWNLOADING_STATUS_NAME)
+                .build();
+        globalTaskListConstant.executionInTaskVOList.add(taskVO);
+        videoDownloadUtils.downloadDhNvrVideo(taskId,videoDownLoadChannelDTO,taskVO);
     }
 }

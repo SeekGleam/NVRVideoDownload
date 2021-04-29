@@ -30,7 +30,7 @@ public class TaskVO {
     private String downloadStatusName;
 
     @ApiModelProperty(name = "下载状态代码",example = "0")
-    private String downloadStatusCode;
+    private Integer downloadStatusCode;
 
     @ApiModelProperty(name = "文件名称",example = "0")
     private String videoFileName;

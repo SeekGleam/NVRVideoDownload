@@ -1,2 +1,6 @@
 server:
   port: 19001
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: utf-8

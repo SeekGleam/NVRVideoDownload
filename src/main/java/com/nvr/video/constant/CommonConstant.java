@@ -25,4 +25,20 @@ public class CommonConstant {
 
     //视频下载线程前缀
     public static final String VIDEO_DOWNLOAD_THREAD_NAME_PREFIX="VideoDownloadThreadPool-";
+
+    //========================================下载状态相关参数=============================================================================
+    //视频下载中状态代码
+    public static final Integer VIDEO_DOWNLOADING_STATUS_CODE=0;
+
+    //视频下载中状态名称
+    public static final String VIDEO_DOWNLOADING_STATUS_NAME="视频下载中";
+
+    //视频已下载状态代码
+    public static final Integer VIDEO_DOWNLOADED_STATUS_CODE=10;
+
+    //视频已下载状态名称
+    public static final String VIDEO_DOWNLOADED_STATUS_NAME="视频下载完成";
+
+    //视频下载异常状态名称
+    public static final String VIDEO_DOWNLOAD_ERR_STATUS_NAME="视频下载异常——具体参照错误码";
 }
