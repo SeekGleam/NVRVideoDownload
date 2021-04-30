@@ -1,6 +1,5 @@
 package com.nvr.video.service.impl;
 import com.nvr.video.constant.CommonConstant;
-import com.nvr.video.constant.GlobalTaskListConstant;
 import com.nvr.video.domain.dto.VideoDownLoadChannelDTO;
 import com.nvr.video.domain.dto.VideoDownLoadStreamDTO;
 import com.nvr.video.domain.vo.TaskVO;
@@ -22,7 +21,6 @@ public class VideoDownloadServiceImpl implements VideoDownloadService {
 
     private final VideoDownloadUtils videoDownloadUtils;
 
-    private final GlobalTaskListConstant globalTaskListConstant;
 
     @Override
     public void downloadHkNvrVideo(String taskId, VideoDownLoadChannelDTO videoDownLoadChannelDTO) {
@@ -34,7 +32,6 @@ public class VideoDownloadServiceImpl implements VideoDownloadService {
                 .downloadStatusCode(CommonConstant.VIDEO_DOWNLOADING_STATUS_CODE)
                 .downloadStatusName(CommonConstant.VIDEO_DOWNLOADING_STATUS_NAME)
                 .build();
-        globalTaskListConstant.executionInTaskVOList.add(taskVO);
     videoDownloadUtils.downlaodHkNvrVideo(taskId,videoDownLoadChannelDTO,taskVO);
     }
 
@@ -61,7 +58,6 @@ public class VideoDownloadServiceImpl implements VideoDownloadService {
                 .downloadStatusCode(CommonConstant.VIDEO_DOWNLOADING_STATUS_CODE)
                 .downloadStatusName(CommonConstant.VIDEO_DOWNLOADING_STATUS_NAME)
                 .build();
-        globalTaskListConstant.executionInTaskVOList.add(taskVO);
         videoDownloadUtils.downloadDhNvrVideo(taskId,videoDownLoadChannelDTO,taskVO);
     }
 }

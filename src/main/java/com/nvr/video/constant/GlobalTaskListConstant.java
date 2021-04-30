@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangbo
@@ -19,18 +20,29 @@ import java.util.List;
 public class GlobalTaskListConstant {
 
     //执行中的任务数组
-    public List<TaskVO> executionInTaskVOList=new ArrayList<>();
+    private List<TaskVO> executionInTaskVOList=new ArrayList<>();
     //已完成的任务数组
-    public List<TaskVO> finishTaskVOList=new ArrayList<>();
+    private List<TaskVO> finishTaskVOList=new ArrayList<>();
     //异常的的任务数组
-    public List<TaskVO> exceptionTaskVOList=new ArrayList<>();
+    private List<TaskVO> exceptionTaskVOList=new ArrayList<>();
 
+    /**
+     * 添加任务到执行中任务数组
+     * @param taskVO 任务对象
+     */
+    public void addExecutionInTaskVO(TaskVO taskVO){
+        exceptionTaskVOList.add(taskVO);
+
+    }
     /**
      * 更改任务从执行中到已完成
      * @param taskId 任务ID
      */
     public void changeExecutionInToFinish(String taskId){
-
+        //将执行中元素移动至已完成元素
+        finishTaskVOList.addAll(exceptionTaskVOList.stream().filter(x->taskId.equals(x.getTaskId())).collect(Collectors.toList()));
+        //去除已执行元素
+        exceptionTaskVOList.removeIf(x -> taskId.equals(x.getTaskId()));
     }
 
     /**
@@ -38,5 +50,10 @@ public class GlobalTaskListConstant {
      * @param taskId 任务ID
      * @param errCode 错误码
      */
-    public void changeExecutionInToException(String taskId,int errCode){}
+    public void changeExecutionInToException(String taskId,int errCode){
+        //将执行中元素移动至已完成元素
+        exceptionTaskVOList.addAll(exceptionTaskVOList.stream().filter(x->taskId.equals(x.getTaskId())).collect(Collectors.toList()));
+        //去除已执行元素
+        exceptionTaskVOList.removeIf(x -> taskId.equals(x.getTaskId()));
+    }
 }

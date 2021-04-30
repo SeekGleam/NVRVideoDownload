@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.*;
 
+import com.nvr.video.constant.NvrSdkConstant;
 import com.nvr.video.domain.dto.VideoDownLoadChannelDTO;
 import com.nvr.video.domain.vo.TaskVO;
 import com.nvr.video.exception.CommonException;
@@ -63,7 +64,7 @@ public class DHDvrVideoUtils {
         DownLoadRecordModule.queryRecordFile(videoDownLoadChannelDTO.getChannel(),stTimeStart,stTimeEnd);
         if (!b_downloadByTime) {
 
-            sourceFileName = videoDownLoadChannelDTO.getFileName();
+            sourceFileName = NvrSdkConstant.VIDEO_DOWNLOAD_PATH+videoDownLoadChannelDTO.getFileName();
 
             m_hDownLoadByTimeHandle = DownLoadRecordModule.downloadRecordFileV2(videoDownLoadChannelDTO.getChannel(), 0, stTimeStart, stTimeEnd,
                     sourceFileName, m_DownLoadPosByTime);

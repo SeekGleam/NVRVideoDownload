@@ -23,6 +23,6 @@ public class NvrSdkConstant {
     //大华SDK路径
     public static final String DH_LIB_PATH="";
     //视频下载本地存储路径
-    public static final String VIDEO_DOWNLOAD_PATH="";
+    public static final String VIDEO_DOWNLOAD_PATH="C:\\Users\\Admin\\Desktop\\CH-HCNetSDKV6.1.6.3_build20200925_Win64\\";
 
 }

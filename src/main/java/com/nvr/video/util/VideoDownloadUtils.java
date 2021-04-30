@@ -1,6 +1,7 @@
 package com.nvr.video.util;
 
 
+import com.nvr.video.constant.NvrSdkConstant;
 import com.nvr.video.domain.dto.VideoDownLoadChannelDTO;
 import com.nvr.video.domain.dto.VideoDownLoadStreamDTO;
 import com.nvr.video.domain.vo.TaskVO;
@@ -28,10 +29,10 @@ public class VideoDownloadUtils {
      * @param traceId 链路ID taskID可作为链路ID
      * @param videoDownLoadChannelDTO 视频下载参数
      * @param taskVO 视频下载任务进度
-     * @return s
+     *
      */
-    public String downlaodHkNvrVideo(String traceId, VideoDownLoadChannelDTO videoDownLoadChannelDTO, TaskVO taskVO){
-        String fileName = videoDownLoadChannelDTO.getFileName();
+    public void downlaodHkNvrVideo(String traceId, VideoDownLoadChannelDTO videoDownLoadChannelDTO, TaskVO taskVO){
+        String fileName = NvrSdkConstant.VIDEO_DOWNLOAD_PATH+videoDownLoadChannelDTO.getFileName();
         String nvrIp=videoDownLoadChannelDTO.getNvrIp();
         short port=videoDownLoadChannelDTO.getPort().shortValue();
         String account=videoDownLoadChannelDTO.getAccount();
@@ -60,14 +61,14 @@ public class VideoDownloadUtils {
             log.info("【海康NVR视频下载任务:{}】调用下载方法，传入参数，userId:{},channel:{},startTime:{},endTime:{},fileName:{}", traceId, userId, channel, videoDownLoadChannelDTO.getClipStartTime(), videoDownLoadChannelDTO.getClipEndTime(), fileName);
             loadHandle = hcNetSDK.NET_DVR_GetFileByTime(userId, new NativeLong((channel)),startTime ,endTime, fileName);
             if (loadHandle.intValue() >= 0) {
-                boolean downloadFlag = hcNetSDK.NET_DVR_PlayBackControl(loadHandle, HCNetSDK.NET_DVR_PLAYSTART, 0,null);
+                hcNetSDK.NET_DVR_PlayBackControl(loadHandle, HCNetSDK.NET_DVR_PLAYSTART, 0,null);
                 int tmp = -1;
                 IntByReference pos = new IntByReference();
                 while (true) {
                     boolean backFlag = hcNetSDK.NET_DVR_PlayBackControl(loadHandle, HCNetSDK.NET_DVR_PLAYGETPOS, 0,pos);
                     // 防止单个线程死循环
                     if (!backFlag) {
-                        return downloadFlag ? fileName : "";
+                        break;
                     }
                     int produce = pos.getValue();
                     // 输出进度
@@ -83,9 +84,9 @@ public class VideoDownloadUtils {
                         taskVO.setDownloadProgressName(tmp+"%");
                         hcNetSDK.NET_DVR_StopGetFile(loadHandle);
                         loadHandle.setValue(-1);
+                        log.info("【海康NVR视频下载任务:{}】从海康NVR下载视频成功" ,traceId);
                         // 退出录像机
                         hcNetSDK.NET_DVR_Logout(userId);
-                        return fileName;
                     }
                     if (produce > 100) {
                         hcNetSDK.NET_DVR_StopGetFile(loadHandle);
@@ -111,11 +112,12 @@ public class VideoDownloadUtils {
      * @param traceId 链路ID taskID可作为链路ID
      * @param videoDownLoadStreamDTO 流模式下载参数
      * @param taskVO 视频下载任务进度
-     * @return
+     *
      */
-    public String downlaodHkCvrVideo(String traceId, VideoDownLoadStreamDTO videoDownLoadStreamDTO, TaskVO taskVO){
-               // 初始化SDK
-            boolean initFlag = hcNetSDK.NET_DVR_Init();
+    public void downlaodHkCvrVideo(String traceId, VideoDownLoadStreamDTO videoDownLoadStreamDTO, TaskVO taskVO){
+        String fileName = NvrSdkConstant.VIDEO_DOWNLOAD_PATH+videoDownLoadStreamDTO.getFileName();
+        // 初始化SDK
+             boolean initFlag = hcNetSDK.NET_DVR_Init();
             if (!initFlag) {
                 log.info("【海康CVR视频下载任务:{}】海康SDK初始化失败", traceId);
                 throw CommonException.SDK_INIT_ERROR;
@@ -137,7 +139,7 @@ public class VideoDownloadUtils {
             // 下载
            NativeLong downloadHandle = new NativeLong(-1);
             if (-1 == downloadHandle.intValue()) {
-                log.info("【海康CVR视频下载任务:{}】调用海康下载方法，传入参数，userId:{},streamId:{},startTime:{},endTime:{},fileName:{}", traceId, userId, videoDownLoadStreamDTO.getStreamId(), videoDownLoadStreamDTO.getClipStartTime(), videoDownLoadStreamDTO.getClipEndTime(), videoDownLoadStreamDTO.getFileName());
+                log.info("【海康CVR视频下载任务:{}】调用海康下载方法，传入参数，userId:{},streamId:{},startTime:{},endTime:{},fileName:{}", traceId, userId, videoDownLoadStreamDTO.getStreamId(), videoDownLoadStreamDTO.getClipStartTime(), videoDownLoadStreamDTO.getClipEndTime(), fileName);
                 HCNetSDK.NET_DVR_PLAYCOND pDownloadCond = new HCNetSDK.NET_DVR_PLAYCOND();
                 pDownloadCond.dwChannel = 0xffffffff;
                 pDownloadCond.struStartTime = CommonUtils.getHkTime(videoDownLoadStreamDTO.getClipStartTime());
@@ -151,7 +153,7 @@ public class VideoDownloadUtils {
                 if (downloadHandle.intValue() >= 0) {
                     boolean downloadFlag = hcNetSDK.NET_DVR_PlayBackControl_V40(downloadHandle, HCNetSDK.NET_DVR_PLAYSTART, null, 0, null, null);
                     log.info("【海康CVR视频下载任务:{}】downloadFlag：{}",traceId, downloadFlag);
-                    int nPos = 0;
+                    int nPos;
                     for (nPos = 0; nPos < 100 && nPos >= 0; nPos = hcNetSDK.NET_DVR_GetDownloadPos(downloadHandle)) {
                         taskVO.setDownloadProgressNum(nPos);
                         taskVO.setDownloadProgressName(nPos+"%");
@@ -171,7 +173,6 @@ public class VideoDownloadUtils {
                         // 退出录像机
                         hcNetSDK.NET_DVR_Logout(userId);
                         log.info("【海康CVR视频下载任务:{}】从海康CVR下载视频成功", traceId);
-                            return videoDownLoadStreamDTO.getFileName();
                         }
                     if (nPos > 100) {
                         hcNetSDK.NET_DVR_StopGetFile(downloadHandle);
@@ -196,11 +197,11 @@ public class VideoDownloadUtils {
      * @param traceId 链路ID taskID可作为链路ID
      * @param videoDownLoadChannelDTO 视频下载参数
      * @param taskVO 视频下载进度
-     * @return filename 文件名称
+     *
      */
-    public String downloadDhNvrVideo(String traceId, VideoDownLoadChannelDTO videoDownLoadChannelDTO, TaskVO taskVO){
+    public void downloadDhNvrVideo(String traceId, VideoDownLoadChannelDTO videoDownLoadChannelDTO, TaskVO taskVO){
 
-        return new DHDvrVideoUtils().dvrDownloadByTimeEx(traceId,videoDownLoadChannelDTO,taskVO);
+        new DHDvrVideoUtils().dvrDownloadByTimeEx(traceId,videoDownLoadChannelDTO,taskVO);
     }
 
 
