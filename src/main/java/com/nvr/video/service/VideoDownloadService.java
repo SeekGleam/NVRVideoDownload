@@ -2,7 +2,7 @@ package com.nvr.video.service;
 
 import com.nvr.video.domain.dto.VideoDownLoadChannelDTO;
 import com.nvr.video.domain.dto.VideoDownLoadStreamDTO;
-import com.nvr.video.domain.vo.VideoDownLoadVO;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * @Author zhangbo
@@ -13,20 +13,23 @@ public interface VideoDownloadService {
 
    /**
     * 海康NVR视频下载接口
-    * @param videoDownLoadChannelDTO
-    * @return
+    * @param taskId 任务ID
+    * @param videoDownLoadChannelDTO 按通道号下载视频参数
     */
-   VideoDownLoadVO downloadHkNvrVideo(VideoDownLoadChannelDTO videoDownLoadChannelDTO);
+   @Async("videoDownloadThreadPool")
+   void downloadHkNvrVideo(String taskId, VideoDownLoadChannelDTO videoDownLoadChannelDTO);
    /**
     * 海康CVR视频下载接口
-    * @param videoDownLoadStreamDTO
-    * @return
+    * @param taskId 任务ID
+    * @param videoDownLoadStreamDTO 按流模式下载视频参数
     */
-   VideoDownLoadVO downloadHkCvrVideo(VideoDownLoadStreamDTO videoDownLoadStreamDTO);
+   @Async("videoDownloadThreadPool")
+   void downloadHkCvrVideo(String taskId, VideoDownLoadStreamDTO videoDownLoadStreamDTO);
    /**
     * 大华NVR视频下载接口
-    * @param videoDownLoadChannelDTO
-    * @return
+    * @param taskId 任务ID
+    * @param videoDownLoadChannelDTO 按通道号下载视频参数
     */
-   VideoDownLoadVO downloadDhNvrVideo(VideoDownLoadChannelDTO videoDownLoadChannelDTO);
+   @Async("videoDownloadThreadPool")
+   void downloadDhNvrVideo(String taskId, VideoDownLoadChannelDTO videoDownLoadChannelDTO);
 }

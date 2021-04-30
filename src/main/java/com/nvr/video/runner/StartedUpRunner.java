@@ -31,7 +31,7 @@ public class StartedUpRunner implements ApplicationRunner {
         log.info("++++++++++++++++++++++++++++++++++++++++++++");
         InetAddress address = InetAddress.getLocalHost();
         String url = String.format("http://%s:%s%s", address.getHostAddress(), port, SWAGGER_SUFFIX);
-        log.info("【办案区视频处理程序】启动成功!");
+        log.info("【视频下载程序】启动成功!");
         log.info("【Swagger】{}", url);
         log.info("++++++++++++++++++++++++++++++++++++++++++++");
     }

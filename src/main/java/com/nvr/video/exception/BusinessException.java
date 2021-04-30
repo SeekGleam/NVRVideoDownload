@@ -3,7 +3,7 @@ package com.nvr.video.exception;
 import lombok.Getter;
 
 /**
- * @author geekerstar
+ * @author zhangbo
  * date: 2019/12/22 08:59
  * description: 统一异常定义，抛出业务异常
  */
