@@ -57,7 +57,7 @@ public class VideoDownloadUtils {
         // 下载句柄
         NativeLong loadHandle = new NativeLong(-1);
         if (loadHandle.intValue() == -1) {
-            log.info("【海康NVR视频下载任务:{}】调用下载方法，传入参数，userId:{},channel:{},startTime:{},endTime:{},fileName:{}", traceId, userId, channel, startTime, endTime, fileName);
+            log.info("【海康NVR视频下载任务:{}】调用下载方法，传入参数，userId:{},channel:{},startTime:{},endTime:{},fileName:{}", traceId, userId, channel, videoDownLoadChannelDTO.getClipStartTime(), videoDownLoadChannelDTO.getClipEndTime(), fileName);
             loadHandle = hcNetSDK.NET_DVR_GetFileByTime(userId, new NativeLong((channel)),startTime ,endTime, fileName);
             if (loadHandle.intValue() >= 0) {
                 boolean downloadFlag = hcNetSDK.NET_DVR_PlayBackControl(loadHandle, HCNetSDK.NET_DVR_PLAYSTART, 0,null);
@@ -91,7 +91,7 @@ public class VideoDownloadUtils {
                         hcNetSDK.NET_DVR_StopGetFile(loadHandle);
                         loadHandle.setValue(-1);
                         hcNetSDK.NET_DVR_Logout(userId);
-                        log.info("【海康NVR视频下载任务:{}】获取下载视频进度失败，错误码 :{}" ,traceId, produce);
+                        log.info("【海康NVR视频下载任务:{}】获取下载视频进度失败，错误码 :{}" ,traceId, hcNetSDK.NET_DVR_GetLastError());
                         throw CommonException.DOWNLOAD_VIDEO_POS_FAILED;
                     }
                 }

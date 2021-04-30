@@ -4,3 +4,6 @@ server:
     context-path: /
   tomcat:
     uri-encoding: utf-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

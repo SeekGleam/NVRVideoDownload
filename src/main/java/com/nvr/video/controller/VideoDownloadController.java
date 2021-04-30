@@ -31,7 +31,7 @@ public class VideoDownloadController {
     @PostMapping("/videoDownload/interceptHkNvrVideo")
     @ApiOperation(value = "海康NVR视频截取下载", notes = "传入NVR登录信息、通道号、视频开始结束时间段（时间段无上限）进行视频下载")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "VideoDownLoadChannelDTO", value = "海康NVR视频下载传参", paramType = "body", required = true, dataType = "VideoDownLoadChannelDTO")
+            @ApiImplicitParam(name = "videoDownLoadChannelDTO", value = "海康NVR视频下载传参", paramType = "body", required = true, dataType = "VideoDownLoadChannelDTO")
     })
     public Response<String> interceptHkNvrVideo(
             @RequestBody VideoDownLoadChannelDTO videoDownLoadChannelDTO
@@ -49,7 +49,7 @@ public class VideoDownloadController {
     @PostMapping("/videoDownload/interceptHkCvrVideo")
     @ApiOperation(value = "海康CVR视频截取下载", notes = "传入海康CVR登录信息、流ID、视频开始结束时间段（时间段无上限）进行视频下载")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "VideoDownLoadStreamDTO", value = "海康CVR视频下载传参", paramType = "body", required = true, dataType = "VideoDownLoadChannelDTO")
+            @ApiImplicitParam(name = "videoDownLoadStreamDTO", value = "海康CVR视频下载传参", paramType = "body", required = true, dataType = "VideoDownLoadStreamDTO")
     })
     public Response<String> interceptHkCvrVideo(
             @RequestBody VideoDownLoadStreamDTO videoDownLoadStreamDTO
@@ -67,7 +67,7 @@ public class VideoDownloadController {
     @PostMapping("/videoDownload/interceptDhNvrVideo")
     @ApiOperation(value = "大华NVR视频截取下载", notes = "传入大华NVR登录信息、通道号、视频开始结束时间段（时间段无上限）进行视频下载")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "VideoDownLoadChannelDTO", value = "海康NVR视频下载传参", paramType = "body", required = true, dataType = "VideoDownLoadChannelDTO")
+            @ApiImplicitParam(name = "videoDownLoadChannelDTO", value = "海康NVR视频下载传参", paramType = "body", required = true, dataType = "VideoDownLoadChannelDTO")
     })
     public Response<String> interceptDhNvrVideo(
             @RequestBody VideoDownLoadChannelDTO videoDownLoadChannelDTO

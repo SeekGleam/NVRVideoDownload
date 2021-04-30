@@ -1,9 +1,9 @@
 package com.nvr.video.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.util.Date;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Date;
  * @Description 视频下载按通道号请求参数
  */
 @Data
-@ApiModel(value = "VideoDownLoadDTO" ,description = "视频下载请求参数")
+@ApiModel(value = "VideoDownLoadChannelDTO" ,description = "视频下载请求参数")
 public class VideoDownLoadChannelDTO {
 
     @ApiModelProperty(value = "不传")
@@ -33,9 +33,11 @@ public class VideoDownLoadChannelDTO {
     @ApiModelProperty(value = "NVR登录密码" ,example = "admin123")
     private String password;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "视频截取开始时间" ,example = "2020-09-10 13:00:00")
     private Date clipStartTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "视频截取结束时间" ,example = "2020-09-10 15:00:00")
     private Date clipEndTime;
 
