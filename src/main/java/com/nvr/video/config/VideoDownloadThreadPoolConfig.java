@@ -24,9 +24,10 @@ public class VideoDownloadThreadPoolConfig {
         threadPoolTaskExecutor.setCorePoolSize(VIDEO_DOWNLOAD_CORE_THREAD_NUM);
         threadPoolTaskExecutor.setMaxPoolSize(VIDEO_DOWNLOAD_MAX_THREAD_NUM);
         threadPoolTaskExecutor.setQueueCapacity(VIDEO_DOWNLOAD_MAX_QUEUE_NUM);
-        threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
         threadPoolTaskExecutor.setThreadNamePrefix(VIDEO_DOWNLOAD_THREAD_NAME_PREFIX);
         threadPoolTaskExecutor.initialize();
         return  threadPoolTaskExecutor;
     }
+
 }
