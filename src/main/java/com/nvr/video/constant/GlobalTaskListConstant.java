@@ -1,7 +1,6 @@
 package com.nvr.video.constant;
 
 import com.nvr.video.domain.vo.TaskVO;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
  * @description 全局任务队列
  */
 @Data
-@Builder
 @Component
 public class GlobalTaskListConstant {
 
@@ -31,8 +29,7 @@ public class GlobalTaskListConstant {
      * @param taskVO 任务对象
      */
     public void addExecutionInTaskVO(TaskVO taskVO){
-        exceptionTaskVOList.add(taskVO);
-
+        executionInTaskVOList.add(taskVO);
     }
     /**
      * 更改任务从执行中到已完成
@@ -40,20 +37,20 @@ public class GlobalTaskListConstant {
      */
     public void changeExecutionInToFinish(String taskId){
         //将执行中元素移动至已完成元素
-        finishTaskVOList.addAll(exceptionTaskVOList.stream().filter(x->taskId.equals(x.getTaskId())).collect(Collectors.toList()));
+        finishTaskVOList.addAll(executionInTaskVOList.stream().filter(x->taskId.equals(x.getTaskId())).collect(Collectors.toList()));
         //去除已执行元素
-        exceptionTaskVOList.removeIf(x -> taskId.equals(x.getTaskId()));
+        executionInTaskVOList.removeIf(x -> taskId.equals(x.getTaskId()));
     }
 
     /**
      * 更改任务从执行中到执行错误
      * @param taskId 任务ID
-     * @param errCode 错误码
      */
-    public void changeExecutionInToException(String taskId,int errCode){
+    public void changeExecutionInToException(String taskId){
         //将执行中元素移动至已完成元素
-        exceptionTaskVOList.addAll(exceptionTaskVOList.stream().filter(x->taskId.equals(x.getTaskId())).collect(Collectors.toList()));
+        exceptionTaskVOList.addAll(executionInTaskVOList.stream().filter(x->taskId.equals(x.getTaskId())).collect(Collectors.toList()));
         //去除已执行元素
-        exceptionTaskVOList.removeIf(x -> taskId.equals(x.getTaskId()));
+        executionInTaskVOList.removeIf(x -> taskId.equals(x.getTaskId()));
     }
+
 }

@@ -21,7 +21,7 @@ public class CommonConstant {
     public static final Integer VIDEO_DOWNLOAD_MAX_THREAD_NUM=10;
 
     //视频下载最大队列数
-    public static final Integer VIDEO_DOWNLOAD_MAX_QUEUE_NUM=20;
+    public static final Integer VIDEO_DOWNLOAD_MAX_QUEUE_NUM=50;
 
     //视频下载线程前缀
     public static final String VIDEO_DOWNLOAD_THREAD_NAME_PREFIX="VideoDownloadThreadPool-";
